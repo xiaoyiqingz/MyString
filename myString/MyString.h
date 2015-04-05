@@ -1,4 +1,8 @@
 #pragma once
+
+class MyString;
+const MyString& operator+(const MyString& A, const MyString& B);
+
 class MyString
 {
 public:
@@ -8,10 +12,12 @@ public:
 
 	 char& operator[](int inDex);
 	 MyString& operator=(char *str);
-	 MyString& operator=(MyString mstr);
-	 int size();
+	 MyString& operator=(MyString mstr); 
+	 friend const MyString& operator+(const MyString& A, const MyString& B);
+	 
+	 int size() const;
 
-	 char* GetString();
+	 char* GetString() const; 
 private:
 	char * m_str;
 	int m_len;

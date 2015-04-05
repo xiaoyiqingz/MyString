@@ -3,6 +3,20 @@
 #include <assert.h>
 #include <iostream>
 
+MyString g_str;
+
+//the param is const, e.g./*const MyString& A,*/
+//in this func, you must use the const member func of MyString
+//to ensure you can't change the member valiable of MyString
+const MyString& operator+(const MyString& A, const MyString& B)
+{
+	int nSize= A.size() + B.size() + 1;  /*size() must be const*/
+	char* tmp = new char[nSize];
+	tmp[0] = '\0';
+	strcpy_s(tmp, nSize, A.GetString()); /*GetString() must be const*/
+	strcat_s(tmp, nSize, B.GetString());
+	return MyString(tmp);	
+}
 
 MyString::MyString(char * str):m_str(str)
 {
@@ -35,12 +49,12 @@ MyString& MyString::operator=(MyString mstr)
 	return *this;
 }
 
-int MyString::size()
+int MyString::size()const
 {
 	return m_len;
 }
 
-char* MyString::GetString()
+char* MyString::GetString()const
 {
 	return m_str;
 }
@@ -66,6 +80,11 @@ int main()
 	CExampleEx exmex1;
 	//CExampleEx exmex2 = 10;
 	CExampleEx exmex3(10);
+
+	MyString strA("hello");
+	MyString strB(" zhangzhe");
+	MyString strC;
+	strC = strA + strB;
 
 	return 0;
 }
