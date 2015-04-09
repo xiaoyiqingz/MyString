@@ -3,14 +3,14 @@
 #include <assert.h>
 #include <iostream>
 
-MyString g_str;
+int CExampleEx::m_Age = 0;
 
 //the param is const, e.g./*const MyString& A,*/
 //in this func, you must use the const member func of MyString
 //to ensure you can't change the member valiable of MyString
 const MyString& operator+(const MyString& A, const MyString& B)
 {
-	int nSize= A.size() + B.size() + 1;  /*size() must be const*/
+	int nSize= A.size() + B.size() + 1;  /*size() must be const, const object only can use const function*/
 	char* tmp = new char[nSize];
 	tmp[0] = '\0';
 	strcpy_s(tmp, nSize, A.GetString()); /*GetString() must be const*/
@@ -45,7 +45,7 @@ MyString& MyString::operator=(char * str)
 }
 MyString& MyString::operator=(MyString mstr)
 {
-	m_str = mstr.m_str;
+	m_str = mstr.m_str; //in member function, you can use the private member of object of same class
 	return *this;
 }
 
@@ -57,6 +57,16 @@ int MyString::size()const
 char* MyString::GetString()const
 {
 	return m_str;
+}
+
+void CExample::SetName(const MyString& strText)
+{
+	m_strName = strText;
+}
+
+void CExample::SetNameEx(MyString& strText)
+{
+	m_strName = strText;
 }
 
 int main()
@@ -80,6 +90,10 @@ int main()
 	CExampleEx exmex1;
 	//CExampleEx exmex2 = 10;
 	CExampleEx exmex3(10);
+	exm1.SetName(mstr1);
+	exm1.SetName("hehehe");   //OK
+	exm1.SetNameEx(mstr1);
+	//exm1.SetNameEx("hehehe");   //wrong
 
 	MyString strA("hello");
 	MyString strB(" zhangzhe");

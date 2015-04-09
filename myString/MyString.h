@@ -31,8 +31,13 @@ public:
 
 	~CExample(){};
 
+public:
+	void	SetName(const MyString& strText);
+	void	SetNameEx(MyString& strText);
+
 private:
 	int m_num;
+	MyString m_strName;
 };
 
 class CExampleEx
@@ -45,4 +50,6 @@ public:
 
 private:
 	int m_num;
+	static int m_Age;
+	//static int m_Age = 0;  error;
 };
